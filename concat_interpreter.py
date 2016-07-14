@@ -8,8 +8,6 @@ def define_function(input_list):
 
 
 def add():
-    a = stack.pop()
-    b = stack.pop()
     stack.append(stack.pop() + stack.pop())
 
 
@@ -71,13 +69,6 @@ def while_to():
     event = stack.pop()
 
 
-#def define_variable():
-#    # add checking for values?
-#    varname = stack.pop()
-#    value = stack.pop()
-#    variables[varname] = value
-
-
 def check_debug():
     global debug
     if len(sys.argv) > 1:
@@ -106,7 +97,6 @@ debug = False
 
 
 def parse_as_int(thing):
-    # Can I use more fundamental language features to evaluate type of input?
     try:
         thing = int(thing)
     except ValueError:
@@ -115,7 +105,6 @@ def parse_as_int(thing):
 
 
 def parse_as_string(thing):
-    # Maybe I can use quotes to recognize a string
     if isinstance(thing, str):
         return thing
 
@@ -183,6 +172,7 @@ def main():
         user_input = input(">>>: ")
         evaluate(user_input)
         if debug:
+            print()
             print("Debug mode...")
             print("stack =", stack)
             print("names =", names)
@@ -193,12 +183,21 @@ if __name__ == '__main__':
 
 
 
+
+
+
+
+
+
+
+
+
+# Can I use more fundamental language features to evaluate type of input?
 # Looping - a function that calls a function x number of times
 # Typing? Or should I just use Python types?
 # Maybe draw out some sort of control flow, or explicit declaration of how the interpreter needs to "think"
-
-
 # prefix language = pre order traversal
 # vs in order traversal (lisp) vs ???
+# Maybe I can use quotes to recognize a string
 
 
