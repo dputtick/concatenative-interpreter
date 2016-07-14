@@ -76,6 +76,7 @@ operations = {
     "exec": execute,
     "var": define_variable
 }
+
 stack = []
 variables = {}
 user_functions = {}
@@ -101,14 +102,22 @@ def parse_as_operator(thing):
         return operations[thing]
 
 
+def parse_as_var(thing):
+    if thing in variables:
+        return variables[variable]
+
+
 def evaluate(input_line):
     input_list = input_line.split()
     for entry in input_list:
         operation = parse_as_operator(entry)
+        variable = parse_as_var(entry)
         integer = parse_as_int(entry)
         string = parse_as_string(entry)
         if operation:
             operation()
+        elif var:
+            stack.append(var)
         elif integer:
             stack.append(integer)
         elif string:
