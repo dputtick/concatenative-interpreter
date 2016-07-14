@@ -47,8 +47,8 @@ def exit():
 
 
 def execute():
+    filename = stack.pop()
     if filename[-3:] == '.ci':
-        filename = stack.pop()
         with open(filename) as f:
             file_contents = list(f)
         for line in file_contents:
@@ -82,13 +82,18 @@ user_functions = {}
 
 
 def parse_as_int(thing):
+    # Can I use more fundamental language features to evaluate type of input?
     try:
         thing = int(thing)
     except ValueError:
         return None
     return thing
 
+
 def parse_as_string(thing):
+    # Maybe I can use quotes to recognize a string
+    if isinstance(thing, str):
+        return thing
 
 
 def parse_as_operator(thing):
@@ -98,18 +103,18 @@ def parse_as_operator(thing):
 
 def evaluate(input_line):
     input_list = input_line.split()
-        for entry in input_list:
-            operation = parse_as_operator(entry)
-            integer = parse_as_int(entry)
-            string = parse_as_string(entry)
-            if operation:
-                operation()
-            elif integer:
-                stack.append(integer)
-            elif string:
+    for entry in input_list:
+        operation = parse_as_operator(entry)
+        integer = parse_as_int(entry)
+        string = parse_as_string(entry)
+        if operation:
+            operation()
+        elif integer:
+            stack.append(integer)
+        elif string:
+            stack.append(string)
 
 
-# data types
 def main():
     while True:
         user_input = input(">>>: ")
@@ -120,9 +125,7 @@ if __name__ == '__main__':
     main()
 
 
-# Maybe I need a special exec keyword that switches the interactive interpreter to
-# a mode that will execute a file and return the result to the stack. This logic could be used for the interpreter lines as well as 
-# for executing a function. Just have a thing that will execute any code block?
+
 
 
 # How do I deal with variables and the stack? How does Python do it?
