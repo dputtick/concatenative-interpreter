@@ -1,5 +1,4 @@
 import sys
-import os
 
 
 def add():
@@ -62,6 +61,13 @@ def define_variable():
     variables[varname] = value
 
 
+def check_debug():
+    global debug
+    if len(sys.argv) > 1:
+        if sys.argv[1] == 'debug':
+            debug = True
+
+
 operations = {
     "+": add,
     "-": sub,
@@ -80,6 +86,7 @@ operations = {
 stack = []
 variables = {}
 user_functions = {}
+debug = False
 
 
 def parse_as_int(thing):
@@ -104,7 +111,7 @@ def parse_as_operator(thing):
 
 def parse_as_var(thing):
     if thing in variables:
-        return variables[variable]
+        return variables[thing]
 
 
 def evaluate(input_line):
@@ -125,10 +132,13 @@ def evaluate(input_line):
 
 
 def main():
+    check_debug()
     while True:
         user_input = input(">>>: ")
         evaluate(user_input)
-        
+        if debug:
+            print("Debug mode...stack =", stack)
+
 
 if __name__ == '__main__':
     main()
