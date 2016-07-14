@@ -51,7 +51,8 @@ def execute():
         filename = stack.pop()
         with open(filename) as f:
             file_contents = list(f)
-        print(file_contents)
+        for line in file_contents:
+            evaluate(line)
 
 
 def define_variable():
@@ -87,20 +88,26 @@ def parse_as_int(thing):
         return None
     return thing
 
+def parse_as_string(thing):
+
 
 def parse_as_operator(thing):
     if thing in operations:
         return operations[thing]
 
 
-def evaluate(input_stuff):
-    input_list = input_stuff.split()
+def evaluate(input_line):
+    input_list = input_line.split()
         for entry in input_list:
-            op = parse_as_operator(entry):
-            if op:
-                op()
+            operation = parse_as_operator(entry)
+            integer = parse_as_int(entry)
+            string = parse_as_string(entry)
+            if operation:
+                operation()
+            elif integer:
+                stack.append(integer)
+            elif string:
 
-            elif 
 
 # data types
 def main():
