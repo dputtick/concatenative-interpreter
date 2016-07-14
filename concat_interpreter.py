@@ -111,7 +111,7 @@ def evaluate(input_line):
     input_list = input_line.split()
     for entry in input_list:
         operation = parse_as_operator(entry)
-        variable = parse_as_var(entry)
+        var = parse_as_var(entry)
         integer = parse_as_int(entry)
         string = parse_as_string(entry)
         if operation:
