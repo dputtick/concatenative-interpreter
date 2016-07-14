@@ -1,6 +1,15 @@
 import sys
 
 
+def function_mode(input_list):
+    name = input_list[0][1:]
+    endvars = index(';')
+    local_vars = input_list[1:endvars]
+    code = [endvars + 1:]
+    function_object = {'locals': local_vars, 'code': code}
+    user_functions[name] = function_object
+
+
 def add():
     stack.append(stack.pop() + stack.pop())
 
@@ -114,14 +123,24 @@ def parse_as_var(thing):
         return variables[thing]
 
 
+def parse_as_function(thing):
+    if thing in user_functions:
+        # call function
+    if thing[0] == ':'
+        return True
+
+
 def evaluate(input_line):
     input_list = input_line.split()
     for entry in input_list:
+        function_definition = parse_as_function(entry)
         operation = parse_as_operator(entry)
         var = parse_as_var(entry)
         integer = parse_as_int(entry)
         string = parse_as_string(entry)
-        if operation:
+        if function:
+            function_mode(input_list)
+        elif operation:
             operation()
         elif var:
             stack.append(var)
@@ -152,12 +171,10 @@ if __name__ == '__main__':
 # Looping - just a goto in a list?
 # Functions - maybe put arguments into a local dict and then create a list of instructions to loop through
 # Typing? Or should I just use Python types?
-# Executing files
 # Maybe draw out some sort of control flow, or explicit declaration of how the interpreter needs to "think"
-# 
 
 
 # prefix language = pre order traversal
-# in order traversal
+# vs in order traversal (lisp) vs ???
 
 
