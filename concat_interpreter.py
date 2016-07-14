@@ -8,11 +8,15 @@ def define_function(input_list):
 
 
 def add():
+    a = stack.pop()
+    b = stack.pop()
     stack.append(stack.pop() + stack.pop())
 
 
 def sub():
-    stack.append(stack.pop() - stack.pop())
+    a = stack.pop()
+    b = stack.pop()
+    stack.append(a - b)
 
 
 def mult():
@@ -20,7 +24,9 @@ def mult():
 
 
 def div():
-    stack.append(stack.pop() / stack.pop())
+    a = stack.pop()
+    b = stack.pop()
+    stack.append(b / a)
 
 
 def clr():
@@ -29,7 +35,7 @@ def clr():
 
 def printer():
     if stack:
-        print(stack[-1])
+        print(stack.pop())
     else:
         print("Stack is empty")
 
@@ -60,6 +66,11 @@ def execute():
             evaluate(line)
 
 
+def while_to():
+    counter = stack.pop()
+    event = stack.pop()
+
+
 #def define_variable():
 #    # add checking for values?
 #    varname = stack.pop()
@@ -86,6 +97,7 @@ operations = {
     "swap": swap,
     "exit": exit,
     "exec": execute,
+    "while": while_to
 }
 
 stack = []
@@ -122,6 +134,21 @@ def parse_as_name(thing):
     if thing in names:
         return thing
 
+
+def parse_as_while(thing):
+    if thing == "while":
+        return thing
+
+
+def while_mode(input_list):
+    counter = stack.pop()
+    while counter:
+        stack.append(counter)
+        evaluate(input_list[1:])
+        counter = stack.pop()
+        counter -= 1
+
+
 def evaluate(inputs):
     if isinstance(inputs, str):
         input_list = inputs.split()
@@ -130,11 +157,15 @@ def evaluate(inputs):
     for entry in input_list:
         function = parse_new_function(entry)
         name = parse_as_name(entry)
+        is_while = parse_as_while(entry)
         operation = parse_as_operator(entry)
         integer = parse_as_int(entry)
         string = parse_as_string(entry)
         if function:
             define_function(input_list)
+            break
+        elif is_while:
+            while_mode(input_list)
             break
         elif name:
             evaluate(names[name])
