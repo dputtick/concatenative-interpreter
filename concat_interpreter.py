@@ -1,13 +1,10 @@
 import sys
 
 
-def function_mode(input_list):
-    name = input_list[0][1:]
-    endvars = index(';')
-    local_vars = input_list[1:endvars]
-    code = [endvars + 1:]
-    function_object = {'locals': local_vars, 'code': code}
-    user_functions[name] = function_object
+def define_function(input_list):
+    name = str(input_list[0][1:])
+    code = input_list[1:]
+    names[name] = code
 
 
 def add():
@@ -63,11 +60,11 @@ def execute():
             evaluate(line)
 
 
-def define_variable():
-    # add checking for values?
-    varname = stack.pop()
-    value = stack.pop()
-    variables[varname] = value
+#def define_variable():
+#    # add checking for values?
+#    varname = stack.pop()
+#    value = stack.pop()
+#    variables[varname] = value
 
 
 def check_debug():
@@ -89,12 +86,10 @@ operations = {
     "swap": swap,
     "exit": exit,
     "exec": execute,
-    "var": define_variable
 }
 
 stack = []
-variables = {}
-user_functions = {}
+names = {}
 debug = False
 
 
@@ -118,32 +113,33 @@ def parse_as_operator(thing):
         return operations[thing]
 
 
-def parse_as_var(thing):
-    if thing in variables:
-        return variables[thing]
-
-
-def parse_as_function(thing):
-    if thing in user_functions:
-        # call function
-    if thing[0] == ':'
+def parse_new_function(thing):
+    if thing[0] == ':':
         return True
 
 
-def evaluate(input_line):
-    input_list = input_line.split()
+def parse_as_name(thing):
+    if thing in names:
+        return thing
+
+def evaluate(inputs):
+    if isinstance(inputs, str):
+        input_list = inputs.split()
+    else:
+        input_list = inputs
     for entry in input_list:
-        function_definition = parse_as_function(entry)
+        function = parse_new_function(entry)
+        name = parse_as_name(entry)
         operation = parse_as_operator(entry)
-        var = parse_as_var(entry)
         integer = parse_as_int(entry)
         string = parse_as_string(entry)
         if function:
-            function_mode(input_list)
+            define_function(input_list)
+            break
+        elif name:
+            evaluate(names[name])
         elif operation:
             operation()
-        elif var:
-            stack.append(var)
         elif integer:
             stack.append(integer)
         elif string:
@@ -156,7 +152,9 @@ def main():
         user_input = input(">>>: ")
         evaluate(user_input)
         if debug:
-            print("Debug mode...stack =", stack)
+            print("Debug mode...")
+            print("stack =", stack)
+            print("names =", names)
 
 
 if __name__ == '__main__':
@@ -164,12 +162,7 @@ if __name__ == '__main__':
 
 
 
-
-
-# How do I deal with variables and the stack? How does Python do it?
-# Maybe a pointer to a location in the stack? But then it isn't a stack?
-# Looping - just a goto in a list?
-# Functions - maybe put arguments into a local dict and then create a list of instructions to loop through
+# Looping - a function that calls a function x number of times
 # Typing? Or should I just use Python types?
 # Maybe draw out some sort of control flow, or explicit declaration of how the interpreter needs to "think"
 
