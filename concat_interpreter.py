@@ -1,12 +1,6 @@
 import sys
 
-
-def define_function(input_list):
-    name = str(input_list[0][1:])
-    code = input_list[1:]
-    names[name] = code
-
-
+### Math Operations
 def add():
     stack.append(stack.pop() + stack.pop())
 
@@ -27,15 +21,9 @@ def div():
     stack.append(b / a)
 
 
+### Stack manipulations
 def clr():
     stack.clear()
-
-
-def printer():
-    if stack:
-        print(stack.pop())
-    else:
-        print("Stack is empty")
 
 
 def dup():
@@ -51,8 +39,30 @@ def swap():
     stack[-1], stack[-2] = stack[-2], stack[-1]
 
 
+### Misc
+def printer():
+    if stack:
+        print(stack.pop())
+    else:
+        print("Stack is empty")
+
+
 def exit():
     sys.exit()
+
+
+def check_debug():
+    global debug
+    if len(sys.argv) > 1:
+        if sys.argv[1] == 'debug':
+            debug = True
+
+
+### Function logic
+def define_function(input_list):
+    name = str(input_list[0][1:])
+    code = input_list[1:]
+    names[name] = code
 
 
 def execute():
@@ -69,13 +79,7 @@ def while_to():
     event = stack.pop()
 
 
-def check_debug():
-    global debug
-    if len(sys.argv) > 1:
-        if sys.argv[1] == 'debug':
-            debug = True
-
-
+# Data store
 operations = {
     "+": add,
     "-": sub,
@@ -90,12 +94,12 @@ operations = {
     "exec": execute,
     "while": while_to
 }
-
 stack = []
 names = {}
 debug = False
 
 
+# Parsing functions
 def parse_as_int(thing):
     try:
         thing = int(thing)
