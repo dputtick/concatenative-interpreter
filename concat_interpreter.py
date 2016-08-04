@@ -1,24 +1,13 @@
 import sys
 
-### Math Operations
-def add():
-    stack.append(stack.pop() + stack.pop())
+import math_ops
 
 
-def sub():
-    a = stack.pop()
-    b = stack.pop()
-    stack.append(a - b)
-
-
-def mult():
-    stack.append(stack.pop() * stack.pop())
-
-
-def div():
-    a = stack.pop()
-    b = stack.pop()
-    stack.append(b / a)
+def stack_handler(func):
+    # do stuff to the stack according to function
+    # responsible for the stack. all operations run through it
+    # should I make the stack an object
+    pass
 
 
 ### Stack manipulations
@@ -81,10 +70,10 @@ def while_to():
 
 # Data store
 operations = {
-    "+": add,
-    "-": sub,
-    "*": mult,
-    "/": div,
+    "+": math_ops.add,
+    "-": math_ops.sub,
+    "*": math_ops.mult,
+    "/": math_ops.div,
     "clr": clr,
     "print": printer,
     "dup": dup,
@@ -142,18 +131,25 @@ def while_mode(input_list):
         counter -= 1
 
 
+def get_type(entry):
+    if parse_new_function(entry):
+        return "Function"
+    elif    
+    name = parse_as_name(entry)
+    is_while = parse_as_while(entry)
+    operation = parse_as_operator(entry)
+    integer = parse_as_int(entry)
+    string = parse_as_string(entry)
+
+
 def evaluate(inputs):
     if isinstance(inputs, str):
         input_list = inputs.split()
     else:
         input_list = inputs
     for entry in input_list:
-        function = parse_new_function(entry)
-        name = parse_as_name(entry)
-        is_while = parse_as_while(entry)
-        operation = parse_as_operator(entry)
-        integer = parse_as_int(entry)
-        string = parse_as_string(entry)
+        entry_type = get_type(entry)
+        
         if function:
             define_function(input_list)
             break
