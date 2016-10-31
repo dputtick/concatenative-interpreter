@@ -1,0 +1,1 @@
+This is an interpreter for a simple concatenative programming language, inspired by Forth and written in Python.
